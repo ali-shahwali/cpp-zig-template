@@ -1,0 +1,13 @@
+.{
+    .name = "glfw",
+    .version = "3.4.0",
+    .dependencies = .{
+        .wayland_headers = .{
+            .path = "../wayland-headers",
+            .lazy = true,
+        },
+    },
+    .paths = .{
+        "",
+    },
+}

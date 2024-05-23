@@ -1,0 +1,12 @@
+.{
+    .name = "imgui",
+    .version = "0.0.0",
+    .dependencies = .{
+        .glfw = .{
+            .path = "../glfw",
+        },
+    },
+    .paths = .{
+        "",
+    },
+}
