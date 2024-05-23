@@ -14,11 +14,11 @@ pub fn build(b: *std.Build) void {
     const libs = [_][]const u8{ "glad", "glfw", "cglm", "assimp", "imgui" };
 
     inline for (libs) |lib| {
-        const glad = b.dependency(lib, .{
+        const dep = b.dependency(lib, .{
             .target = target,
             .optimize = optimize,
         });
-        exe.linkLibrary(glad.artifact(lib));
+        exe.linkLibrary(dep.artifact(lib));
     }
 
     exe.addCSourceFiles(.{
