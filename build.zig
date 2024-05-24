@@ -11,15 +11,23 @@ pub fn build(b: *std.Build) void {
         .optimize = optimize,
     });
 
-    const libs = [_][]const u8{ "glad", "glfw", "cglm", "assimp", "imgui" };
+    const libs = [_][]const u8{ "glad", "glfw", "assimp", "imgui" };
 
     inline for (libs) |lib| {
         const dep = b.dependency(lib, .{
             .target = target,
             .optimize = optimize,
         });
+
         exe.linkLibrary(dep.artifact(lib));
     }
+
+    const dep = b.dependency("cglm", .{
+        .target = target,
+        .optimize = optimize,
+        .cglm_static = true,
+    });
+    exe.linkLibrary(dep.artifact("cglm"));
 
     exe.addCSourceFiles(.{
         .files = &.{"src/main.cc"},
