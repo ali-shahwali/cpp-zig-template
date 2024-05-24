@@ -4,7 +4,6 @@
     .dependencies = .{
         .wayland_headers = .{
             .path = "../wayland-headers",
-            .lazy = true,
         },
     },
     .paths = .{

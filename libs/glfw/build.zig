@@ -10,6 +10,8 @@ pub fn build(b: *std.Build) void {
         .optimize = optimize,
     });
 
+    lib.linkLibC();
+
     lib.installHeadersDirectory(b.path("include/GLFW/"), "GLFW", .{});
 
     lib.addIncludePath(b.path("include/"));
@@ -38,13 +40,12 @@ pub fn build(b: *std.Build) void {
             });
         },
         else => {
-            if (b.lazyDependency("wayland_headers", .{
+            const dep = b.dependency("wayland_headers", .{
                 .target = target,
                 .optimize = optimize,
-            })) |dep| {
-                lib.linkLibrary(dep.artifact("wayland-headers"));
-                lib.installLibraryHeaders(dep.artifact("wayland-headers"));
-            }
+            });
+            lib.linkLibrary(dep.artifact("wayland-headers"));
+            lib.installLibraryHeaders(dep.artifact("wayland-headers"));
 
             const flags = [_][]const u8{
                 "-D_GLFW_WAYLAND",
@@ -66,7 +67,6 @@ pub fn build(b: *std.Build) void {
             });
         },
     }
-    lib.linkLibCpp();
 
     b.installArtifact(lib);
 }
